@@ -19,7 +19,7 @@ Anda akan menggunakan fungsi `spread` dari paket `tidyr` untuk mengubah memperba
 Kegunaan spread adalah memutar Key menjadi kolom dan Nilai menjadi value
 
 ```{r}
-install.packages ("tidyr")
+#install.packages ("tidyr")
 library ("tidyr")
 table2
 ```
@@ -43,23 +43,32 @@ Dataset 'table4a' dapat diperbaiki dengan menggunakan fungsi `gather` dari `tidy
 gather(table4a, key = "year", value = "case", 2:3)
 
 table4a_tidy <- table4a %>% 
-  gather(key = "year", value = "cases", 2:3) # menggunakan tidyverse syntax, pipe %>%
+  gather(key = "year", value = "cases", 2:3, convert = TRUE) # menggunakan tidyverse syntax, pipe %>%
 ```
 
 Silakan lakukan hal serupa pada dataset 'table4b' namun dengan menggunakan "population" sebagai isian argumen `value`. Tuliskan juga dengan menggunakan *tidyverse syntax* dan simpan obyek tersebut dengan nama 'table4b_tidy'!
 
 ```{r}
-gather(table4b, key = "year", value = "population", 2:3)
+table4b_tidy <- gather(table4b, key = "year", value = "population", 2:3, convert = TRUE)
 
-table4b_tidy <- table4b %>% 
-  gather(key = "year", value = "population", 2:3)
 ```
 
 Dataset 'table4a_tidy' dan 'table4b_tidy' tersebut dapat digabungkan menjadi satu dataset. Hal tersebut dapat dilakukan dengan menggunakan fungsi `left_join` dari paket `dplyr` seperti contoh berikut:
 
 ```{r}
-___ # mengaktifkan paket dplyr
-mydata <- left_join(table4a_tidy, table4b_tidy)
+library(dplyr) # mengaktifkan paket dplyr
+table1
+table4a_tidy
+table4b_tidy
+
+mydata <- left_join(table4a_tidy, table4b_tidy, by = c("country", "year"))
+mydata
+
+mydata <- mydata %>%
+  arrange(country)
+mydata
+
+identical(table1, mydata)
 ```
 
 
@@ -68,8 +77,8 @@ mydata <- left_join(table4a_tidy, table4b_tidy)
 Dataset mydata tersebut merupakan subset dataset Tubercolusis yang diolah dari data 'who' dan 'population' (dari paket `tidyr`). Lihatlah ringkasan kedua tersebut dengan menggunakan `glimpse`!
 
 ```{r}
-___(who)
-___(population)
+glimpse(who)
+glimpse(population)
 ```
 
 Sekarang kita akan membuat versi utuh dari dataset 'mydata' dengan menggunakan data seluruh negara pada dataset 'who' sebagai berikut:
@@ -113,6 +122,6 @@ Dapatkah Anda membuat ringkasan apa saja hal apa saja yang dilakukan pada proses
 Cek apakah dataset 'tb8' sama dengan dataset 'tb_all'! Menurut Anda, cara penulisan *syntax* manakah yang lebih mudah digunakan dan dipahami?
 
 ```{r}
-___(tb8, tb_all)
+identical(tb8, tb_all)
 ```
 
