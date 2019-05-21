@@ -3,16 +3,7 @@ title: "Transformasi Data"
 author: "Muhammad Aswan Syahputra"
 date: "4/9/2019"
 output:
-  html_document: 
-    df_print: default
-    fig_height: 6
-    fig_width: 9
-    highlight: textmate
-    keep_md: yes
-    theme: yeti
-    toc: yes
-    toc_collapsed: yes
-    toc_float: yes
+  github_document
 editor_options: 
   chunk_output_type: inline
 ---
@@ -23,10 +14,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Non-tidy menjadi Tidy dataset
 
-Anda akan menggunakan fungsi `spread` dari paket `tidyr` untuk mengubah memperbaiki dataset 'table2' (juga dari paket `tidyr`). Aktifkanlah paket `tidyr`, lihat dataset 'table2'. Apakah yang membuat dataset tersebut *non-tidy* data? Bukalah dokumentasi fungsi `spread` dengan menjalankan `?nama_fungsi` atau `help(nama_fungsi)`!
+Anda akan menggunakan fungsi `spread` dari paket `tidyr` untuk mengubah memperbaiki dataset 'table2' (juga dari paket `tidyr`). Aktifkanlah paket `tidyr`, lihat dataset 'table2'. Apakah yang membuat dataset tersebut *non-tidy* data? Bukalah dokumentasi fungsi `spread` dengan menjalankan `?nama_fungsi` atau `help(nama_fungsi
+
+Kegunaan spread adalah memutar Key menjadi kolom dan Nilai menjadi value
 
 ```{r}
-___(tidyr)
+install.packages ("tidyr")
+library ("tidyr")
 table2
 ```
 
@@ -39,8 +33,9 @@ table2_tidy <- spread(table2, key = "type", value = "count")
 Selanjutnya Anda juga akan memperbaiki dataset 'table4a'. Cetaklah dataset tersebut dan dapatkah Anda menyebutkan alasan mengapa dataset tersebut tidak *tidy* dan *tame*?
 
 ```{r}
-___ # cetak dataset table4a
+table4a # cetak dataset table4a
 ```
+Table4a tidak tame karena ada nama kolom yg tidak valid menggunakan number.
 
 Dataset 'table4a' dapat diperbaiki dengan menggunakan fungsi `gather` dari `tidyr`. Anda dapat mempelajari fungsi tersebut dengan menjalankan `?gather`.
 
@@ -54,9 +49,10 @@ table4a_tidy <- table4a %>%
 Silakan lakukan hal serupa pada dataset 'table4b' namun dengan menggunakan "population" sebagai isian argumen `value`. Tuliskan juga dengan menggunakan *tidyverse syntax* dan simpan obyek tersebut dengan nama 'table4b_tidy'!
 
 ```{r}
-table4b
+gather(table4b, key = "year", value = "population", 2:3)
 
-table4b_tidy <- ___
+table4b_tidy <- table4b %>% 
+  gather(key = "year", value = "population", 2:3)
 ```
 
 Dataset 'table4a_tidy' dan 'table4b_tidy' tersebut dapat digabungkan menjadi satu dataset. Hal tersebut dapat dilakukan dengan menggunakan fungsi `left_join` dari paket `dplyr` seperti contoh berikut:
